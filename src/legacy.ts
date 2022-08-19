@@ -1,4 +1,5 @@
 import { UserOptions } from './options';
+import { createSaveFromSettings } from './saves';
 
 function getCookie(wanted: string) {
     const cookies = document.cookie.split(';');
@@ -26,10 +27,18 @@ export function getLegacyCookie(): UserOptions | null {
     countdownEnd.setHours(parseInt(cookieData[1]));
     countdownEnd.setMinutes(parseInt(cookieData[2]));
 
-    return {
+    const oldOptions = {
         countdownEnd: countdownEnd,
         endMessage: cookieData[4],
         showDays: true,
         splitStyles: cookieData[3] === 'true',
     };
+
+    // store the old options as a new save
+    createSaveFromSettings('Legacy', oldOptions);
+
+    // remove the cookie
+    document.cookie = 'save=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+
+    return oldOptions;
 }

@@ -36,10 +36,14 @@ function loadSaves(): Record<string, RawJSONUserOptions> {
     return JSON.parse(localStorage.getItem('midnight')!);
 }
 
-function createSave(name: string) {
+export function createSave(name: string) {
+    createSaveFromSettings(name, loadUserOptions());
+}
+
+export function createSaveFromSettings(name: string, settings: UserOptions) {
     saveToLocalStorage({
         ...saves,
-        [name]: loadUserOptions(),
+        [name]: settings,
     });
     saves = loadSaves();
     savesToHTML();

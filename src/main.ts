@@ -28,6 +28,9 @@ if (legacyCookie === null) {
     writeUserOptions(defaultUserOptions);
 } else {
     writeUserOptions(legacyCookie);
+    alert(
+        "Welcome back! Since you've left, we've rebuilt the site from the ground up.\n\nDon't worry, your old save isn't lost. We've turned it into a new save called 'Legacy' for you.",
+    );
 }
 
 savesToHTML();
