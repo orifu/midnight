@@ -23,6 +23,10 @@ body {
 
     pointer-events: none;
     user-select: none;
+
+    &.done {
+        font-size: 5em;
+    }
 }
 
 #openSettings {

@@ -1,4 +1,4 @@
-import { createCountdown } from './countdown';
+import { CountdownOptions, createCountdown } from './countdown';
 import { getTomorrow, hideAfterInactivity } from './util';
 
 const timer = document.getElementById('timer')!;
@@ -10,4 +10,11 @@ document.getElementById('closeSettings')!.onclick = () =>
     settingsParent.classList.remove('shown');
 
 hideAfterInactivity(document.getElementById('openSettings')!);
-createCountdown(getTomorrow(), timer, {});
+
+const defaultCountdownOptions: CountdownOptions = {
+    countdownEnd: getTomorrow(),
+    endMessage: 'Tomorrow is another day.',
+    showDays: false,
+};
+
+createCountdown(timer, defaultCountdownOptions);

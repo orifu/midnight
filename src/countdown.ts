@@ -3,11 +3,12 @@ let activeCountdowns: number[] = [];
 const pad = (n: number) => String(n).padStart(2, '0');
 
 export type CountdownOptions = {
+    countdownEnd: Date;
+    endMessage?: string;
     showDays?: boolean;
 };
 
 export function createCountdown(
-    endDate: Date,
     element: HTMLElement,
     options: CountdownOptions,
 ) {
@@ -19,10 +20,11 @@ export function createCountdown(
     activeCountdowns.push(
         setInterval(() => {
             // time until the countdown ends (ms)
-            const timeRemaining = +endDate - +new Date();
+            const timeRemaining = +options.countdownEnd - +new Date();
 
             if (timeRemaining < 0) {
                 element.classList.add('done');
+                element.innerText = options.endMessage ?? '';
             } else {
                 const totalSeconds = Math.floor(timeRemaining / 1000);
                 const seconds = pad(totalSeconds % 60);
