@@ -1,5 +1,10 @@
-import { CountdownOptions, createCountdown } from './countdown';
-import { loadUserOptions, onInputChange, writeUserOptions } from './options';
+import { createCountdown } from './countdown';
+import {
+    loadUserOptions,
+    onInputChange,
+    UserOptions,
+    writeUserOptions,
+} from './options';
 import { getTomorrow, hideAfterInactivity } from './util';
 
 const timer = document.getElementById('timer')!;
@@ -12,10 +17,11 @@ document.getElementById('closeSettings')!.onclick = () =>
 
 hideAfterInactivity(document.getElementById('openSettings')!);
 
-const defaultCountdownOptions: CountdownOptions = {
+const defaultCountdownOptions: UserOptions = {
     countdownEnd: getTomorrow(),
     endMessage: 'Tomorrow is another day.',
     showDays: false,
+    splitStyles: false,
 };
 
 onInputChange(() => {
@@ -23,4 +29,3 @@ onInputChange(() => {
 });
 
 writeUserOptions(defaultCountdownOptions);
-createCountdown(timer, defaultCountdownOptions);
