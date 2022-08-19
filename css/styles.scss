@@ -51,6 +51,16 @@ body {
     }
 }
 
+#hideCursor {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 5em;
+    height: 5em;
+
+    cursor: none;
+}
+
 #openSettings {
     position: fixed;
     bottom: 1em;
