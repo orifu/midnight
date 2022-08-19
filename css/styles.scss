@@ -37,6 +37,9 @@ body {
     border: 0;
 
     cursor: pointer;
+
+    transition: opacity 0.25s;
+    will-change: opacity;
 }
 
 #settings {
