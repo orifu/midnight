@@ -43,7 +43,7 @@ export function toShareHash(options: UserOptions) {
 }
 
 export function fromShareURL(): UserOptions {
-    return fromShareHash(location.hash.substring(1));
+    return fromShareHash(decodeURIComponent(location.hash.substring(1)));
 }
 
 export function fromShareHash(share: string): UserOptions {
