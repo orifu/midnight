@@ -6,6 +6,7 @@ import {
     onInputChange,
     writeUserOptions,
 } from './options';
+import { savesToHTML } from './saves';
 import { hideAfterInactivity } from './util';
 
 const timer = document.getElementById('timer')!;
@@ -28,3 +29,5 @@ if (legacyCookie === null) {
 } else {
     writeUserOptions(legacyCookie);
 }
+
+savesToHTML();
