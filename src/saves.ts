@@ -19,17 +19,26 @@ let saves = loadSaves();
 const savesParent = document.getElementById('saves')!;
 
 // add save button
-document.getElementById('createSaveButton')!.onclick = () => {
-    const name = (
-        document.getElementById('createSaveName')! as HTMLInputElement
-    ).value;
+function onPressSaveButton() {
+    const inputElem = document.getElementById(
+        'createSaveName',
+    )! as HTMLInputElement;
+    const name = inputElem.value;
+
     if (name in saves) {
         alert(
             'A save by this name already exists. Please delete that one first before creating a new save with the same name.',
         );
     } else {
         createSave(name);
+        inputElem.value = '';
         alert('Saved!');
+    }
+}
+document.getElementById('createSaveButton')!.onclick = onPressSaveButton;
+document.getElementById('createSaveName')!.onkeydown = (ev) => {
+    if (ev.key === 'Enter') {
+        onPressSaveButton();
     }
 };
 
