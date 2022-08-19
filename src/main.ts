@@ -1,4 +1,5 @@
 import { CountdownOptions, createCountdown } from './countdown';
+import { loadUserOptions, onInputChange } from './options';
 import { getTomorrow, hideAfterInactivity } from './util';
 
 const timer = document.getElementById('timer')!;
@@ -17,4 +18,8 @@ const defaultCountdownOptions: CountdownOptions = {
     showDays: false,
 };
 
-createCountdown(timer, defaultCountdownOptions);
+onInputChange(() => {
+    createCountdown(timer, loadUserOptions());
+});
+
+createCountdown(timer, loadUserOptions());

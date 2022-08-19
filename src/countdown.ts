@@ -14,7 +14,7 @@ export function createCountdown(
 ) {
     // clear any existing countdowns
     while (activeCountdowns.length) {
-        clearInterval(activeCountdowns[0]);
+        clearInterval(activeCountdowns.pop());
     }
 
     activeCountdowns.push(
@@ -26,13 +26,14 @@ export function createCountdown(
                 element.classList.add('done');
                 element.innerText = options.endMessage ?? '';
             } else {
+                element.classList.remove('done');
                 const totalSeconds = Math.floor(timeRemaining / 1000);
                 const seconds = pad(totalSeconds % 60);
                 const minutes = pad(Math.floor(totalSeconds / 60) % 60);
                 const hours = pad(Math.floor(totalSeconds / 60 / 60) % 24);
                 const days = pad(Math.floor(totalSeconds / 60 / 60 / 24));
 
-                if (options.showDays ?? true) {
+                if ((options.showDays ?? true) || days !== '00') {
                     element.innerText = `${days}:${hours}:${minutes}:${seconds}`;
                 } else {
                     element.innerText = `${hours}:${minutes}:${seconds}`;
