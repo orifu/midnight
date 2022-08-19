@@ -1,4 +1,5 @@
 import { createCountdown } from './countdown';
+import { getLegacyCookie } from './legacy';
 import {
     loadUserOptions,
     onInputChange,
@@ -28,4 +29,9 @@ onInputChange(() => {
     createCountdown(timer, loadUserOptions());
 });
 
-writeUserOptions(defaultCountdownOptions);
+const legacyCookie = getLegacyCookie();
+if (legacyCookie === null) {
+    writeUserOptions(defaultCountdownOptions);
+} else {
+    writeUserOptions(legacyCookie);
+}
