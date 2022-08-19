@@ -20,7 +20,7 @@ export function toShareHash(options: UserOptions) {
 
     // convert the end timestamp to seconds
     // then to base 36
-    output += (+options.countdownEnd / 1000).toString(36);
+    output += Math.floor(+options.countdownEnd / 1000).toString(36);
 
     // separator
     output += '|';

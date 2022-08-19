@@ -29,8 +29,9 @@ export function onInputChange(listener: (el: HTMLInputElement) => void) {
 }
 
 export function loadUserOptions(): UserOptions {
+    const cdEnd = options.countdownEnd.value;
     return {
-        countdownEnd: new Date(options.countdownEnd.value),
+        countdownEnd: cdEnd.length ? new Date(cdEnd) : new Date(),
         endMessage: options.endMessage.value,
         showDays: options.showDays.checked,
         splitStyles: options.splitStyles.checked,
