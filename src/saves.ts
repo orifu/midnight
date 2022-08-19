@@ -1,4 +1,5 @@
 import { loadUserOptions, UserOptions, writeUserOptions } from './options';
+import { toShareURL } from './share';
 
 // https://stackoverflow.com/a/54975267
 type Overwrite<T, U> = Omit<T, keyof U> & U;
@@ -55,7 +56,7 @@ function saveToLocalStorage(
     localStorage.setItem('midnight', JSON.stringify(newSaves ?? saves));
 }
 
-function saveToSettings(save: RawJSONUserOptions): UserOptions {
+function convertJSONSave(save: RawJSONUserOptions): UserOptions {
     return {
         ...save,
         countdownEnd: new Date(save.countdownEnd),
@@ -78,12 +79,19 @@ export function savesToHTML() {
         const loadButton = document.createElement('button');
         loadButton.innerText = 'Load';
         loadButton.onclick = () => {
-            writeUserOptions(saveToSettings(save));
+            writeUserOptions(convertJSONSave(save));
         };
         buttonWrapper.appendChild(loadButton);
 
         const copyButton = document.createElement('button');
         copyButton.innerText = 'Copy';
+        copyButton.onclick = () => {
+            const shareHash = toShareURL(convertJSONSave(save));
+            const shareURL =
+                location.href.replace(location.hash, '') + '#' + shareHash;
+            navigator.clipboard.writeText(shareURL);
+            alert('Copied!');
+        };
         buttonWrapper.appendChild(copyButton);
 
         const deleteButton = document.createElement('button');
@@ -93,7 +101,6 @@ export function savesToHTML() {
                 delete saves[name];
                 saveToLocalStorage();
                 savesToHTML();
-                alert(`Removed ${name}!`);
             }
         };
         buttonWrapper.appendChild(deleteButton);
