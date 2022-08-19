@@ -1,5 +1,5 @@
 import { createCountdown } from './countdown';
-import { getLegacyCookie } from './legacy';
+import { getLegacyCookie, getLegacyURLData } from './legacy';
 import {
     defaultUserOptions,
     loadUserOptions,
@@ -25,11 +25,14 @@ onInputChange(() => {
 });
 
 const legacyCookie = getLegacyCookie();
+const legacyURLData = getLegacyURLData();
 if (legacyCookie !== null) {
     writeUserOptions(legacyCookie);
     alert(
         "Welcome back! Since you've left, we've rebuilt the site from the ground up.\n\nDon't worry, your old save isn't lost. We've turned it into a new save called 'Legacy' for you.",
     );
+} else if (legacyURLData !== null) {
+    writeUserOptions(legacyURLData);
 } else if (location.hash.length) {
     writeUserOptions(fromShareURL());
     history.replaceState(null, '', location.href.replace(location.hash, ''));
