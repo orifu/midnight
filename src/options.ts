@@ -24,6 +24,22 @@ export function loadUserOptions(): CountdownOptions {
     };
 }
 
+export function writeUserOptions(cdOptions: CountdownOptions) {
+    // from https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local#the_y10k_problem_often_client-side
+    // and https://stackoverflow.com/a/64440084
+    function dateToISOString(date: Date) {
+        const unixDate = new Date(+date);
+        unixDate.setMinutes(unixDate.getMinutes() - date.getTimezoneOffset());
+
+        const isoString = unixDate.toISOString();
+        return isoString.substring(0, isoString.indexOf('T') + 6);
+    }
+
+    options.countdownEnd.value = dateToISOString(cdOptions.countdownEnd);
+    options.endMessage.value = cdOptions.endMessage;
+    options.showDays.checked = cdOptions.showDays;
+}
+
 // for options that don't effect the countdown
 onInputChange((name, el) => {
     switch (name) {

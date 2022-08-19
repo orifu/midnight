@@ -4,8 +4,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 export type CountdownOptions = {
     countdownEnd: Date;
-    endMessage?: string;
-    showDays?: boolean;
+    endMessage: string;
+    showDays: boolean;
 };
 
 export function createCountdown(

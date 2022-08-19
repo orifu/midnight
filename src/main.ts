@@ -1,5 +1,5 @@
 import { CountdownOptions, createCountdown } from './countdown';
-import { loadUserOptions, onInputChange } from './options';
+import { loadUserOptions, onInputChange, writeUserOptions } from './options';
 import { getTomorrow, hideAfterInactivity } from './util';
 
 const timer = document.getElementById('timer')!;
@@ -22,4 +22,5 @@ onInputChange(() => {
     createCountdown(timer, loadUserOptions());
 });
 
-createCountdown(timer, loadUserOptions());
+writeUserOptions(defaultCountdownOptions);
+createCountdown(timer, defaultCountdownOptions);
