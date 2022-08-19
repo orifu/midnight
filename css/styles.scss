@@ -10,6 +10,8 @@ body {
     justify-content: center;
     align-items: center;
 
+    accent-color: #777;
+
     &.unus-annus {
         &:before {
             content: '';
@@ -24,6 +26,11 @@ body {
             z-index: 200;
         }
     }
+}
+
+*::selection {
+    background-color: #fff;
+    color: #000;
 }
 
 @font-face {
