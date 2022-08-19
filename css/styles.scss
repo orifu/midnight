@@ -9,6 +9,21 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &.unus-annus {
+        &:before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            left: 50%;
+
+            background-color: #fff;
+            mix-blend-mode: exclusion;
+
+            pointer-events: none;
+            z-index: 200;
+        }
+    }
 }
 
 @font-face {
@@ -106,7 +121,7 @@ body {
 
         &:before,
         &:after {
-            content: "";
+            content: '';
             position: absolute;
             top: 0;
 
