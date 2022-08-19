@@ -1,13 +1,23 @@
-import { CountdownOptions } from './countdown';
+import { getTomorrow } from './util';
 
-export type UserOptions = CountdownOptions & {
-    splitStyles: boolean;
+export const defaultCountdownOptions = {
+    countdownEnd: getTomorrow(),
+    endMessage: 'Tomorrow is another day.',
+    showDays: false,
 };
+
+export const defaultUserOptions = {
+    ...defaultCountdownOptions,
+    splitStyles: false,
+};
+
+export type CountdownOptions = typeof defaultCountdownOptions;
+export type UserOptions = typeof defaultUserOptions;
 
 const options: Record<string, HTMLInputElement> = {};
 const eventListeners: ((el: HTMLInputElement) => void)[] = [];
 
-['countdownEnd', 'endMessage', 'showDays', 'splitStyles'].forEach((name) => {
+Object.keys(defaultUserOptions).forEach((name) => {
     options[name] = document.getElementById(name) as HTMLInputElement;
     options[name].onchange = () => {
         eventListeners.forEach((el) => el(options[name]));

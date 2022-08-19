@@ -1,12 +1,12 @@
 import { createCountdown } from './countdown';
 import { getLegacyCookie } from './legacy';
 import {
+    defaultUserOptions,
     loadUserOptions,
     onInputChange,
-    UserOptions,
     writeUserOptions,
 } from './options';
-import { getTomorrow, hideAfterInactivity } from './util';
+import { hideAfterInactivity } from './util';
 
 const timer = document.getElementById('timer')!;
 const settingsParent = document.getElementById('settings')!;
@@ -18,20 +18,13 @@ document.getElementById('closeSettings')!.onclick = () =>
 
 hideAfterInactivity(document.getElementById('openSettings')!);
 
-const defaultCountdownOptions: UserOptions = {
-    countdownEnd: getTomorrow(),
-    endMessage: 'Tomorrow is another day.',
-    showDays: false,
-    splitStyles: false,
-};
-
 onInputChange(() => {
     createCountdown(timer, loadUserOptions());
 });
 
 const legacyCookie = getLegacyCookie();
 if (legacyCookie === null) {
-    writeUserOptions(defaultCountdownOptions);
+    writeUserOptions(defaultUserOptions);
 } else {
     writeUserOptions(legacyCookie);
 }
