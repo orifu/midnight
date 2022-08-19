@@ -17,13 +17,27 @@
 
     <div id="settings">
         <button id="closeSettings"></button>
-        <h1>Settings</h1>
 
+        <h1>Settings</h1>
         <div>
             <label for="countdownEnd">Countdown End</label> <input id="countdownEnd" type="datetime-local" />
             <label for="endMessage">End Message</label> <input id="endMessage" type="text" />
             <label for="showDays">Show Days</label> <input id="showDays" type="checkbox" />
             <label for="splitStyles">Split Styles</label> <input id="splitStyles" type="checkbox" />
+        </div>
+
+        <h1>Saves</h1>
+        <div id="saves">
+            <span>Save 1</span>
+            <div><button>Load</button><button>Copy</button></div>
+        </div>
+        <hr />
+        <div>
+            Create Save
+            <div>
+                <input type="text" placeholder="Name" />
+                <button>Save</button>
+            </div>
         </div>
     </div>
 </body>
