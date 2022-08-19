@@ -1,4 +1,4 @@
-import { loadUserOptions, UserOptions } from './options';
+import { loadUserOptions, UserOptions, writeUserOptions } from './options';
 
 // https://stackoverflow.com/a/54975267
 type Overwrite<T, U> = Omit<T, keyof U> & U;
@@ -19,10 +19,17 @@ const savesParent = document.getElementById('saves')!;
 
 // add save button
 document.getElementById('createSaveButton')!.onclick = () => {
-    createSave(
-        (document.getElementById('createSaveName')! as HTMLInputElement).value,
-    );
-    alert('Saved!');
+    const name = (
+        document.getElementById('createSaveName')! as HTMLInputElement
+    ).value;
+    if (name in saves) {
+        alert(
+            'A save by this name already exists. Please delete that one first before creating a new save with the same name.',
+        );
+    } else {
+        createSave(name);
+        alert('Saved!');
+    }
 };
 
 function loadSaves(): Record<string, RawJSONUserOptions> {
@@ -30,15 +37,18 @@ function loadSaves(): Record<string, RawJSONUserOptions> {
 }
 
 function createSave(name: string) {
-    localStorage.setItem(
-        'midnight',
-        JSON.stringify({
-            ...saves,
-            [name]: loadUserOptions(),
-        }),
-    );
+    saveToLocalStorage({
+        ...saves,
+        [name]: loadUserOptions(),
+    });
     saves = loadSaves();
     savesToHTML();
+}
+
+function saveToLocalStorage(
+    newSaves?: Record<string, RawJSONUserOptions | UserOptions>,
+) {
+    localStorage.setItem('midnight', JSON.stringify(newSaves ?? saves));
 }
 
 function saveToSettings(save: RawJSONUserOptions): UserOptions {
@@ -63,10 +73,25 @@ export function savesToHTML() {
 
         const loadButton = document.createElement('button');
         loadButton.innerText = 'Load';
+        loadButton.onclick = () => {
+            writeUserOptions(saveToSettings(save));
+        };
         buttonWrapper.appendChild(loadButton);
 
         const copyButton = document.createElement('button');
         copyButton.innerText = 'Copy';
         buttonWrapper.appendChild(copyButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.onclick = () => {
+            if (confirm(`Are you sure you want to delete ${name}?`)) {
+                delete saves[name];
+                saveToLocalStorage();
+                savesToHTML();
+                alert(`Removed ${name}!`);
+            }
+        };
+        buttonWrapper.appendChild(deleteButton);
     }
 }
