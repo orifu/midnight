@@ -1,3 +1,6 @@
-alert('Hello, world!');
+import { createCountdown } from './countdown';
+import { getTomorrow } from './util';
 
-export {};
+const timer = document.getElementById('timer')!;
+
+createCountdown(getTomorrow(), timer, {});

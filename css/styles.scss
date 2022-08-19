@@ -1,9 +1,25 @@
 body {
     background-color: #000;
+    color: #fff;
     height: 100vh;
     margin: 0;
 
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@font-face {
+    font-family: 'DIN Next';
+    src: url(https://f9.limitedrun.com/fonts/503/DINNextLTPro-Medium.woff2) format('woff2');
+    font-style: normal;
+    font-weight: 500;
+}
+
+#timer {
+    font-family: 'DIN Next', sans-serif;
+    font-size: 10em;
+
+    pointer-events: none;
+    user-select: none;
 }
