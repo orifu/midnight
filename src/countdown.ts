@@ -16,24 +16,26 @@ export function createCountdown(
         clearInterval(activeCountdowns[0]);
     }
 
-    setInterval(() => {
-        // time until the countdown ends (ms)
-        const timeRemaining = +endDate - +new Date();
+    activeCountdowns.push(
+        setInterval(() => {
+            // time until the countdown ends (ms)
+            const timeRemaining = +endDate - +new Date();
 
-        if (timeRemaining < 0) {
-            element.classList.add('done');
-        } else {
-            const totalSeconds = Math.floor(timeRemaining / 1000);
-            const seconds = pad(totalSeconds % 60);
-            const minutes = pad(Math.floor(totalSeconds / 60) % 60);
-            const hours = pad(Math.floor(totalSeconds / 60 / 60) % 24);
-            const days = pad(Math.floor(totalSeconds / 60 / 60 / 24));
-
-            if (options.showDays ?? true) {
-                element.innerText = `${days}:${hours}:${minutes}:${seconds}`;
+            if (timeRemaining < 0) {
+                element.classList.add('done');
             } else {
-                element.innerText = `${hours}:${minutes}:${seconds}`;
+                const totalSeconds = Math.floor(timeRemaining / 1000);
+                const seconds = pad(totalSeconds % 60);
+                const minutes = pad(Math.floor(totalSeconds / 60) % 60);
+                const hours = pad(Math.floor(totalSeconds / 60 / 60) % 24);
+                const days = pad(Math.floor(totalSeconds / 60 / 60 / 24));
+
+                if (options.showDays ?? true) {
+                    element.innerText = `${days}:${hours}:${minutes}:${seconds}`;
+                } else {
+                    element.innerText = `${hours}:${minutes}:${seconds}`;
+                }
             }
-        }
-    }, 100);
+        }, 100),
+    );
 }
