@@ -31,7 +31,7 @@ if (legacyCookie !== null) {
         "Welcome back! Since you've left, we've rebuilt the site from the ground up.\n\nDon't worry, your old save isn't lost. We've turned it into a new save called 'Legacy' for you.",
     );
 } else if (location.hash.length) {
-    writeUserOptions(fromShareURL(location.hash.substring(1)));
+    writeUserOptions(fromShareURL());
     history.replaceState(null, '', location.href.replace(location.hash, ''));
 } else {
     writeUserOptions(defaultUserOptions);

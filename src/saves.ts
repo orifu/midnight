@@ -86,9 +86,7 @@ export function savesToHTML() {
         const copyButton = document.createElement('button');
         copyButton.innerText = 'Copy';
         copyButton.onclick = () => {
-            const shareHash = toShareURL(convertJSONSave(save));
-            const shareURL =
-                location.href.replace(location.hash, '') + '#' + shareHash;
+            const shareURL = toShareURL(convertJSONSave(save));
             navigator.clipboard.writeText(shareURL);
             alert('Copied!');
         };

@@ -1,6 +1,18 @@
-import { UserOptions } from './options';
+import { loadUserOptions, UserOptions } from './options';
+
+document.getElementById('copyShareURL')!.onclick = () => {
+    const shareURL = toShareURL(loadUserOptions());
+    navigator.clipboard.writeText(shareURL);
+    alert('Copied!');
+};
 
 export function toShareURL(options: UserOptions) {
+    return (
+        location.href.replace(location.hash, '') + '#' + toShareHash(options)
+    );
+}
+
+export function toShareHash(options: UserOptions) {
     // '1' is the version number
     // if more options are added to the output,
     // breaking changes may be made
@@ -30,7 +42,11 @@ export function toShareURL(options: UserOptions) {
     return output;
 }
 
-export function fromShareURL(share: string): UserOptions {
+export function fromShareURL(): UserOptions {
+    return fromShareHash(location.hash.substring(1));
+}
+
+export function fromShareHash(share: string): UserOptions {
     switch (share[0]) {
         // version 1
         case '1':
