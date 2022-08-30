@@ -41,7 +41,7 @@ body {
 }
 
 #timer {
-    font-size: 10em;
+    font-size: 15vw;
 
     pointer-events: none;
     user-select: none;
@@ -157,8 +157,6 @@ body {
             gap: 0.25em;
         }
 
-        input[type=text],
-        input[type=datetime-local],
         button {
             flex: 1;
         }
@@ -200,6 +198,64 @@ body {
         &:after {
             right: -$halfWidth;
             transform: rotate(45deg);
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    #settings {
+        input[type=text],
+        input[type=datetime-local],
+        button:not(#closeSettings) {
+            padding: 0.5em 0.75em;
+        }
+
+        > div {
+            display: flex;
+            flex-wrap: wrap;
+
+            label {
+                width: 100%;
+                text-align: center;
+
+                &.checkbox {
+                    width: auto;
+                    margin-bottom: 1rem;
+
+                    + * {
+                        width: auto;
+                        flex: 1;
+                    }
+                }
+                
+                + * {
+                    width: 100%;
+                    margin: 0;
+                    margin-bottom: 1rem;
+                }
+            }
+
+            > div {
+                width: 100%;
+            
+                > #createSaveName {
+                    flex: 0.8;
+                }
+
+                > #createSaveButton {
+                    flex: 0.2;
+                }
+            }
+        }
+
+        #saves {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        #closeSettings {
+            width: 2em;
+            height: 2em;
         }
     }
 }
