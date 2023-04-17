@@ -105,6 +105,9 @@ a {
     overflow-y: auto;
     padding-bottom: 3em;
 
+    // prevents the cursor hiding from happening on the settings screen
+    cursor: default;
+
     &.shown {
         top: 0;
     }
