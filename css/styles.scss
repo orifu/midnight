@@ -42,6 +42,17 @@ body {
     color: #000;
 }
 
+a {
+    color: #fff;
+    text-decoration: underline;
+
+    transition: 0.1s color;
+
+    &:hover {
+        color: #ddd;
+    }
+}
+
 @font-face {
     font-family: 'DIN Next';
     src: url(https://f9.limitedrun.com/fonts/503/DINNextLTPro-Medium.woff2)
@@ -108,8 +119,18 @@ body {
         text-align: center;
 
         &:not(:first-of-type) {
-            margin-top: 1em;
+            margin-top: 3rem;
         }
+    }
+
+    footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: end;
+
+        margin-top: 3rem;
+        flex: 1;
     }
 
     input[type='text'],
