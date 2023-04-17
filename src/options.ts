@@ -17,6 +17,7 @@ export const defaultCountdownOptions = {
 export const defaultUserOptions = {
     ...defaultCountdownOptions,
     splitStyles: false,
+    invertColors: false,
 };
 
 export type CountdownOptions = typeof defaultCountdownOptions;
@@ -58,6 +59,7 @@ export function loadOptionsFromInputs(): UserOptions {
         endMessage: options.endMessage.value,
         showDays: options.showDays.checked,
         splitStyles: options.splitStyles.checked,
+        invertColors: options.invertColors.checked,
     };
 }
 
@@ -81,6 +83,7 @@ export function writeOptionsToInputs(userOptions: UserOptions) {
     options.endMessage.value = userOptions.endMessage;
     options.showDays.checked = userOptions.showDays;
     options.splitStyles.checked = userOptions.splitStyles;
+    options.invertColors.checked = userOptions.invertColors;
 
     // broadcast that an input change has occurred
     for (const option of Object.values(options)) {
@@ -96,6 +99,14 @@ onInputChange((el) => {
                 document.body.classList.add('split-styles');
             } else {
                 document.body.classList.remove('split-styles');
+            }
+            break;
+
+        case 'invertColors':
+            if (el.checked) {
+                document.body.classList.add('invert-colors');
+            } else {
+                document.body.classList.remove('invert-colors');
             }
             break;
     }

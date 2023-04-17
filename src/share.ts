@@ -45,8 +45,11 @@ export function toShareHash(options: UserOptions) {
     // flags
     // 1 << 0 - show days
     // 1 << 1 - split styles
+    // 1 << 2 - invert colours
     const flags =
-        +options.showDays * (1 << 0) + +options.splitStyles * (1 << 1);
+        +options.showDays * (1 << 0) +
+        +options.splitStyles * (1 << 1) +
+        +options.invertColors * (1 << 2);
     output += String.fromCharCode(0b0110_0001 + flags);
 
     return output;
@@ -86,6 +89,7 @@ export function fromShareHash(share: string): UserOptions {
                 endMessage,
                 showDays: hasFlag(0),
                 splitStyles: hasFlag(1),
+                invertColors: hasFlag(2),
             };
 
         default:

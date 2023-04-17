@@ -30,6 +30,11 @@ body {
             z-index: 200;
         }
     }
+
+    &.invert-colors {
+        filter: invert(100%);
+        background-color: #fff;
+    }
 }
 
 *::selection {

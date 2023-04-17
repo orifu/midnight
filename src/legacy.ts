@@ -33,6 +33,7 @@ function optionsFromLegacyString(data: string): UserOptions {
         endMessage: splitData[4],
         showDays: true,
         splitStyles: splitData[3] === 'true',
+        invertColors: false,
     };
 }
 
