@@ -20,6 +20,7 @@ document.getElementById('closeSettings')!.onclick = () =>
     settingsParent.classList.remove('shown');
 
 hideAfterInactivity(document.getElementById('openSettings')!);
+hideAfterInactivity(document.body);
 
 onInputChange(() => {
     createCountdown(timerElement, loadOptionsFromInputs());

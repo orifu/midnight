@@ -12,6 +12,10 @@ body {
 
     accent-color: #777;
 
+    &.hidden {
+        cursor: none;
+    }
+
     &.split-styles {
         &:before {
             content: '';
@@ -41,6 +45,10 @@ body {
     font-weight: 500;
 }
 
+:not(body).hidden {
+    opacity: 0;
+}
+
 #timer {
     font-size: min(10em, 15vw);
 
@@ -50,16 +58,6 @@ body {
     &.done {
         font-size: 5em;
     }
-}
-
-#hideCursor {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 5em;
-    height: 5em;
-
-    cursor: none;
 }
 
 #openSettings {

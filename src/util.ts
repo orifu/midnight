@@ -16,7 +16,7 @@ setInterval(() => {
     if (++timeSinceInactivity >= 20) {
         // hide all elements
         inactivityElements.forEach((el) => {
-            el.style.opacity = '0';
+            el.classList.add('hidden');
         });
     }
 }, 50);
@@ -35,6 +35,6 @@ window.addEventListener('mousemove', () => {
     timeSinceInactivity = 0;
 
     inactivityElements.forEach((el) => {
-        el.style.removeProperty('opacity');
+        el.classList.remove('hidden');
     });
 });
