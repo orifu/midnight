@@ -1,16 +1,17 @@
 import { createCountdown } from './countdown';
-import { getLegacyCookie, getLegacyURLData } from './legacy';
+import { getLegacySave, getLegacyURLData } from './legacy';
 import {
     defaultUserOptions,
-    loadUserOptions,
+    loadOptionsFromInputs,
     onInputChange,
-    writeUserOptions,
+    writeOptionsToInputs,
 } from './options';
 import { savesToHTML } from './saves';
 import { fromShareURL } from './share';
 import { hideAfterInactivity } from './util';
 
-const timer = document.getElementById('timer')!;
+/** The element used for the timer. */
+const timerElement = document.getElementById('timer')!;
 const settingsParent = document.getElementById('settings')!;
 
 document.getElementById('openSettings')!.onclick = () =>
@@ -21,23 +22,31 @@ document.getElementById('closeSettings')!.onclick = () =>
 hideAfterInactivity(document.getElementById('openSettings')!);
 
 onInputChange(() => {
-    createCountdown(timer, loadUserOptions());
+    createCountdown(timerElement, loadOptionsFromInputs());
 });
 
-const legacyCookie = getLegacyCookie();
-const legacyURLData = getLegacyURLData();
-if (legacyCookie !== null) {
-    writeUserOptions(legacyCookie);
+// if the user has a legacy save, then load it and show a message
+const legacySave = getLegacySave();
+if (legacySave !== null) {
+    writeOptionsToInputs(legacySave);
     alert(
-        "Welcome back! Since you've left, we've rebuilt the site from the ground up.\n\nDon't worry, your old save isn't lost. We've turned it into a new save called 'Legacy' for you.",
+        "Welcome back! Since you left, we've rebuilt the site from the ground up.\n\nDon't worry, your old save isn't lost. We've turned it into a new save called 'Legacy' for you.",
     );
-} else if (legacyURLData !== null) {
-    writeUserOptions(legacyURLData);
-} else if (location.hash.length) {
-    writeUserOptions(fromShareURL());
+}
+
+// if there is legacy URL data, then load it
+const legacyURLData = getLegacyURLData();
+if (legacyURLData !== null) {
+    writeOptionsToInputs(legacyURLData);
+}
+
+// if there is URL data, load it, and remove it from the URL
+if (location.hash.length) {
+    writeOptionsToInputs(fromShareURL());
     history.replaceState(null, '', location.href.replace(location.hash, ''));
 } else {
-    writeUserOptions(defaultUserOptions);
+    // otherwise, load the default options
+    writeOptionsToInputs(defaultUserOptions);
 }
 
 savesToHTML();

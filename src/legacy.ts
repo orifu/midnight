@@ -3,16 +3,25 @@ import { createSaveFromSettings } from './saves';
 
 function getCookie(wanted: string) {
     const cookies = document.cookie.split(';');
+
     for (const cookie of cookies) {
         const [name, value] = cookie.split('=');
         if (name.trim() === wanted) {
             return value.trim();
         }
     }
+
     return null;
 }
 
 function optionsFromLegacyString(data: string): UserOptions {
+    // legacy data format (comma separated):
+    // the Unix timestamp for the date (number)
+    // the hour value (number)
+    // the minute value (number)
+    // whether the page has the split design (boolean)
+    // the ending message (string)
+
     const splitData = data.split(',');
 
     const countdownEnd = new Date(parseInt(splitData[0]));
@@ -20,7 +29,7 @@ function optionsFromLegacyString(data: string): UserOptions {
     countdownEnd.setMinutes(parseInt(splitData[2]));
 
     return {
-        countdownEnd: countdownEnd,
+        countdownEnd,
         endMessage: splitData[4],
         showDays: true,
         splitStyles: splitData[3] === 'true',
@@ -28,9 +37,11 @@ function optionsFromLegacyString(data: string): UserOptions {
 }
 
 /**
- * Parses cookies used in the old version of the Midnight page.
+ * Retrieves saves from the legacy version of Midnight.
+ * If present, it will automatically be saved as "Legacy".
+ * @returns The options used, or null if there aren't any.
  */
-export function getLegacyCookie(): UserOptions | null {
+export function getLegacySave(): UserOptions | null {
     const cookie = getCookie('save');
     if (cookie === null) {
         return null;
@@ -47,6 +58,10 @@ export function getLegacyCookie(): UserOptions | null {
     return oldOptions;
 }
 
+/**
+ * Gets options stored in the URL from the legacy version of Midnight.
+ * @returns The options used, or null if there aren't any.
+ */
 export function getLegacyURLData(): UserOptions | null {
     const data = new URLSearchParams(location.search).get('data');
     if (data === null) {

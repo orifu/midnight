@@ -12,7 +12,7 @@ body {
 
     accent-color: #777;
 
-    &.unus-annus {
+    &.split-styles {
         &:before {
             content: '';
             position: absolute;
@@ -35,7 +35,8 @@ body {
 
 @font-face {
     font-family: 'DIN Next';
-    src: url(https://f9.limitedrun.com/fonts/503/DINNextLTPro-Medium.woff2) format('woff2');
+    src: url(https://f9.limitedrun.com/fonts/503/DINNextLTPro-Medium.woff2)
+        format('woff2');
     font-style: normal;
     font-weight: 500;
 }
@@ -108,8 +109,8 @@ body {
         }
     }
 
-    input[type=text],
-    input[type=datetime-local],
+    input[type='text'],
+    input[type='datetime-local'],
     button:not(#closeSettings) {
         background-color: #000;
         color: #fff;
@@ -120,7 +121,7 @@ body {
         border-radius: 0.5em;
     }
 
-    input[type=checkbox] {
+    input[type='checkbox'] {
         filter: grayscale(100%) invert(100%) brightness(150%);
     }
 
@@ -204,8 +205,8 @@ body {
 
 @media (max-width: 480px) {
     #settings {
-        input[type=text],
-        input[type=datetime-local],
+        input[type='text'],
+        input[type='datetime-local'],
         button:not(#closeSettings) {
             padding: 0.5em 0.75em;
         }
@@ -227,7 +228,7 @@ body {
                         flex: 1;
                     }
                 }
-                
+
                 + * {
                     width: 100%;
                     margin: 0;
@@ -237,7 +238,7 @@ body {
 
             > div {
                 width: 100%;
-            
+
                 > #createSaveName {
                     flex: 0.8;
                 }

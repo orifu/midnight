@@ -1,17 +1,27 @@
-import { loadUserOptions, UserOptions } from './options';
+import { loadOptionsFromInputs, UserOptions } from './options';
 
 document.getElementById('copyShareURL')!.onclick = () => {
-    const shareURL = toShareURL(loadUserOptions());
+    const shareURL = toShareURL(loadOptionsFromInputs());
     navigator.clipboard.writeText(shareURL);
     alert('Copied!');
 };
 
+/**
+ * Converts an options object into a sharing URL.
+ * @param options The options to use in the URL.
+ * @returns The entire sharing URL.
+ */
 export function toShareURL(options: UserOptions) {
     return (
         location.href.replace(location.hash, '') + '#' + toShareHash(options)
     );
 }
 
+/**
+ * Converts an options object into a sharing hash, to be used in a sharing URL.
+ * @param options The options to use in the hash.
+ * @returns The sharing hash.
+ */
 export function toShareHash(options: UserOptions) {
     // '1' is the version number
     // if more options are added to the output,
@@ -42,10 +52,20 @@ export function toShareHash(options: UserOptions) {
     return output;
 }
 
+/**
+ * Converts the current URL into an options object.
+ * Does not validate if there are options in the URL.
+ * @returns The options.
+ */
 export function fromShareURL(): UserOptions {
     return fromShareHash(decodeURIComponent(location.hash.substring(1)));
 }
 
+/**
+ * Converts a given share hash into an options object.
+ * @param share The hash.
+ * @returns The options.
+ */
 export function fromShareHash(share: string): UserOptions {
     switch (share[0]) {
         // version 1
@@ -67,7 +87,8 @@ export function fromShareHash(share: string): UserOptions {
                 showDays: hasFlag(0),
                 splitStyles: hasFlag(1),
             };
-    }
 
-    throw new Error(`Unknown version type ${share[0]}!`);
+        default:
+            throw new Error(`Unknown version type ${share[0]}!`);
+    }
 }

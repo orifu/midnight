@@ -1,34 +1,57 @@
 import { getTomorrow } from './util';
 
+/**
+ * The default options for the countdown.
+ * When any of these settings are changed, the countdown needs to be destroyed and rebuilt.
+ */
 export const defaultCountdownOptions = {
     countdownEnd: getTomorrow(),
     endMessage: 'Tomorrow is another day.',
     showDays: false,
 };
 
+/**
+ * The default user options.
+ * Options that are in this object that aren't in the countdown options are unrelated to the countdown.
+ */
 export const defaultUserOptions = {
     ...defaultCountdownOptions,
     splitStyles: false,
 };
 
 export type CountdownOptions = typeof defaultCountdownOptions;
+/** The type corresponding to the user's options. */
 export type UserOptions = typeof defaultUserOptions;
 
-const options: Record<string, HTMLInputElement> = {};
+/** Listener functions, which are called when any of the option input elements are changed. */
 const eventListeners: ((el: HTMLInputElement) => void)[] = [];
 
-Object.keys(defaultUserOptions).forEach((name) => {
+/** Maps each of the user options to the corresponding input element. */
+// @ts-ignore
+// idk how to do this properly lol
+const options: {
+    [K in keyof UserOptions]: HTMLInputElement;
+} = {};
+(Object.keys(defaultUserOptions) as (keyof UserOptions)[]).forEach((name) => {
     options[name] = document.getElementById(name) as HTMLInputElement;
     options[name].onchange = () => {
         eventListeners.forEach((el) => el(options[name]));
     };
 });
 
+/**
+ * Creates a new listener, which will be called when any of the option input elements are changed.
+ * @param listener The listener. Takes in the input element as its argument.
+ */
 export function onInputChange(listener: (el: HTMLInputElement) => void) {
     eventListeners.push(listener);
 }
 
-export function loadUserOptions(): UserOptions {
+/**
+ * Loads the user's option from the option input elements.
+ * @returns The options.
+ */
+export function loadOptionsFromInputs(): UserOptions {
     const cdEnd = options.countdownEnd.value;
     return {
         countdownEnd: cdEnd.length ? new Date(cdEnd) : new Date(),
@@ -38,7 +61,12 @@ export function loadUserOptions(): UserOptions {
     };
 }
 
-export function writeUserOptions(userOptions: UserOptions) {
+/**
+ * Writes the given options to the option input elements.
+ * @param userOptions The options to write.
+ */
+export function writeOptionsToInputs(userOptions: UserOptions) {
+    // as we're using a datetime-local input, this converts it to an ISO string
     // from https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local#the_y10k_problem_often_client-side
     // and https://stackoverflow.com/a/64440084
     function dateToISOString(date: Date) {
@@ -55,19 +83,19 @@ export function writeUserOptions(userOptions: UserOptions) {
     options.splitStyles.checked = userOptions.splitStyles;
 
     // broadcast that an input change has occurred
-    for (const [_, option] of Object.entries(options)) {
+    for (const option of Object.values(options)) {
         eventListeners.forEach((el) => el(option));
     }
 }
 
-// for options that don't effect the countdown
+// for options that don't affect the countdown
 onInputChange((el) => {
     switch (el.id) {
         case 'splitStyles':
             if (el.checked) {
-                document.body.classList.add('unus-annus');
+                document.body.classList.add('split-styles');
             } else {
-                document.body.classList.remove('unus-annus');
+                document.body.classList.remove('split-styles');
             }
             break;
     }

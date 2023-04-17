@@ -1,8 +1,17 @@
-import { loadUserOptions, UserOptions, writeUserOptions } from './options';
+import {
+    loadOptionsFromInputs,
+    UserOptions,
+    writeOptionsToInputs,
+} from './options';
 import { toShareURL } from './share';
 
 // https://stackoverflow.com/a/54975267
 type Overwrite<T, U> = Omit<T, keyof U> & U;
+
+/**
+ * The type corresponding to the user's options when saved as JSON.
+ * This exists because Date objects are saved as strings.
+ */
 type RawJSONUserOptions = Overwrite<
     UserOptions,
     {
@@ -18,7 +27,6 @@ if (!('midnight' in localStorage)) {
 let saves = loadSaves();
 const savesParent = document.getElementById('saves')!;
 
-// add save button
 function onPressSaveButton() {
     const inputElem = document.getElementById(
         'createSaveName',
@@ -35,6 +43,7 @@ function onPressSaveButton() {
         alert('Saved!');
     }
 }
+
 document.getElementById('createSaveButton')!.onclick = onPressSaveButton;
 document.getElementById('createSaveName')!.onkeydown = (ev) => {
     if (ev.key === 'Enter') {
@@ -46,15 +55,25 @@ function loadSaves(): Record<string, RawJSONUserOptions> {
     return JSON.parse(localStorage.getItem('midnight')!);
 }
 
+/**
+ * Creates a new save using the user's current settings.
+ * @param name The save's name.
+ */
 export function createSave(name: string) {
-    createSaveFromSettings(name, loadUserOptions());
+    createSaveFromSettings(name, loadOptionsFromInputs());
 }
 
+/**
+ * Creates a new save using the given settings.
+ * @param name The save's name.
+ * @param settings The save's settings.
+ */
 export function createSaveFromSettings(name: string, settings: UserOptions) {
     saveToLocalStorage({
         ...saves,
         [name]: settings,
     });
+
     saves = loadSaves();
     savesToHTML();
 }
@@ -72,6 +91,9 @@ function convertJSONSave(save: RawJSONUserOptions): UserOptions {
     };
 }
 
+/**
+ * Converts the saves into HTML elements.
+ */
 export function savesToHTML() {
     while (savesParent.firstChild) {
         savesParent.removeChild(savesParent.lastChild!);
@@ -88,7 +110,7 @@ export function savesToHTML() {
         const loadButton = document.createElement('button');
         loadButton.innerText = 'Load';
         loadButton.onclick = () => {
-            writeUserOptions(convertJSONSave(save));
+            writeOptionsToInputs(convertJSONSave(save));
         };
         buttonWrapper.appendChild(loadButton);
 
