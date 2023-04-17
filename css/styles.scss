@@ -42,7 +42,7 @@ body {
 }
 
 #timer {
-    font-size: 15vw;
+    font-size: min(10em, 15vw);
 
     pointer-events: none;
     user-select: none;
